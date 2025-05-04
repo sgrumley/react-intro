@@ -11,20 +11,18 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
-import { Route as SnippetsImport } from './routes/snippets'
 import { Route as LayoutImport } from './routes/_layout'
 import { Route as IndexImport } from './routes/index'
-import { Route as DemoTanstackQueryImport } from './routes/demo.tanstack-query'
-import { Route as LayoutGymImport } from './routes/_layout.gym'
-import { Route as LayoutGymProgramsImport } from './routes/_layout.gym.programs'
+import { Route as LayoutTradingImport } from './routes/_layout/trading'
+import { Route as LayoutNotesImport } from './routes/_layout/notes'
+import { Route as LayoutKanbanImport } from './routes/_layout/kanban'
+import { Route as LayoutGymImport } from './routes/_layout/gym'
+import { Route as LayoutFootballImport } from './routes/_layout/football'
+import { Route as LayoutFinanceImport } from './routes/_layout/finance'
+import { Route as LayoutCodeImport } from './routes/_layout/code'
+import { Route as LayoutGymProgramsImport } from './routes/_layout/gym.programs'
 
 // Create/Update Routes
-
-const SnippetsRoute = SnippetsImport.update({
-  id: '/snippets',
-  path: '/snippets',
-  getParentRoute: () => rootRoute,
-} as any)
 
 const LayoutRoute = LayoutImport.update({
   id: '/_layout',
@@ -37,15 +35,45 @@ const IndexRoute = IndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const DemoTanstackQueryRoute = DemoTanstackQueryImport.update({
-  id: '/demo/tanstack-query',
-  path: '/demo/tanstack-query',
-  getParentRoute: () => rootRoute,
+const LayoutTradingRoute = LayoutTradingImport.update({
+  id: '/trading',
+  path: '/trading',
+  getParentRoute: () => LayoutRoute,
+} as any)
+
+const LayoutNotesRoute = LayoutNotesImport.update({
+  id: '/notes',
+  path: '/notes',
+  getParentRoute: () => LayoutRoute,
+} as any)
+
+const LayoutKanbanRoute = LayoutKanbanImport.update({
+  id: '/kanban',
+  path: '/kanban',
+  getParentRoute: () => LayoutRoute,
 } as any)
 
 const LayoutGymRoute = LayoutGymImport.update({
   id: '/gym',
   path: '/gym',
+  getParentRoute: () => LayoutRoute,
+} as any)
+
+const LayoutFootballRoute = LayoutFootballImport.update({
+  id: '/football',
+  path: '/football',
+  getParentRoute: () => LayoutRoute,
+} as any)
+
+const LayoutFinanceRoute = LayoutFinanceImport.update({
+  id: '/finance',
+  path: '/finance',
+  getParentRoute: () => LayoutRoute,
+} as any)
+
+const LayoutCodeRoute = LayoutCodeImport.update({
+  id: '/code',
+  path: '/code',
   getParentRoute: () => LayoutRoute,
 } as any)
 
@@ -73,12 +101,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LayoutImport
       parentRoute: typeof rootRoute
     }
-    '/snippets': {
-      id: '/snippets'
-      path: '/snippets'
-      fullPath: '/snippets'
-      preLoaderRoute: typeof SnippetsImport
-      parentRoute: typeof rootRoute
+    '/_layout/code': {
+      id: '/_layout/code'
+      path: '/code'
+      fullPath: '/code'
+      preLoaderRoute: typeof LayoutCodeImport
+      parentRoute: typeof LayoutImport
+    }
+    '/_layout/finance': {
+      id: '/_layout/finance'
+      path: '/finance'
+      fullPath: '/finance'
+      preLoaderRoute: typeof LayoutFinanceImport
+      parentRoute: typeof LayoutImport
+    }
+    '/_layout/football': {
+      id: '/_layout/football'
+      path: '/football'
+      fullPath: '/football'
+      preLoaderRoute: typeof LayoutFootballImport
+      parentRoute: typeof LayoutImport
     }
     '/_layout/gym': {
       id: '/_layout/gym'
@@ -87,12 +129,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LayoutGymImport
       parentRoute: typeof LayoutImport
     }
-    '/demo/tanstack-query': {
-      id: '/demo/tanstack-query'
-      path: '/demo/tanstack-query'
-      fullPath: '/demo/tanstack-query'
-      preLoaderRoute: typeof DemoTanstackQueryImport
-      parentRoute: typeof rootRoute
+    '/_layout/kanban': {
+      id: '/_layout/kanban'
+      path: '/kanban'
+      fullPath: '/kanban'
+      preLoaderRoute: typeof LayoutKanbanImport
+      parentRoute: typeof LayoutImport
+    }
+    '/_layout/notes': {
+      id: '/_layout/notes'
+      path: '/notes'
+      fullPath: '/notes'
+      preLoaderRoute: typeof LayoutNotesImport
+      parentRoute: typeof LayoutImport
+    }
+    '/_layout/trading': {
+      id: '/_layout/trading'
+      path: '/trading'
+      fullPath: '/trading'
+      preLoaderRoute: typeof LayoutTradingImport
+      parentRoute: typeof LayoutImport
     }
     '/_layout/gym/programs': {
       id: '/_layout/gym/programs'
@@ -119,11 +175,23 @@ const LayoutGymRouteWithChildren = LayoutGymRoute._addFileChildren(
 )
 
 interface LayoutRouteChildren {
+  LayoutCodeRoute: typeof LayoutCodeRoute
+  LayoutFinanceRoute: typeof LayoutFinanceRoute
+  LayoutFootballRoute: typeof LayoutFootballRoute
   LayoutGymRoute: typeof LayoutGymRouteWithChildren
+  LayoutKanbanRoute: typeof LayoutKanbanRoute
+  LayoutNotesRoute: typeof LayoutNotesRoute
+  LayoutTradingRoute: typeof LayoutTradingRoute
 }
 
 const LayoutRouteChildren: LayoutRouteChildren = {
+  LayoutCodeRoute: LayoutCodeRoute,
+  LayoutFinanceRoute: LayoutFinanceRoute,
+  LayoutFootballRoute: LayoutFootballRoute,
   LayoutGymRoute: LayoutGymRouteWithChildren,
+  LayoutKanbanRoute: LayoutKanbanRoute,
+  LayoutNotesRoute: LayoutNotesRoute,
+  LayoutTradingRoute: LayoutTradingRoute,
 }
 
 const LayoutRouteWithChildren =
@@ -132,18 +200,26 @@ const LayoutRouteWithChildren =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '': typeof LayoutRouteWithChildren
-  '/snippets': typeof SnippetsRoute
+  '/code': typeof LayoutCodeRoute
+  '/finance': typeof LayoutFinanceRoute
+  '/football': typeof LayoutFootballRoute
   '/gym': typeof LayoutGymRouteWithChildren
-  '/demo/tanstack-query': typeof DemoTanstackQueryRoute
+  '/kanban': typeof LayoutKanbanRoute
+  '/notes': typeof LayoutNotesRoute
+  '/trading': typeof LayoutTradingRoute
   '/gym/programs': typeof LayoutGymProgramsRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '': typeof LayoutRouteWithChildren
-  '/snippets': typeof SnippetsRoute
+  '/code': typeof LayoutCodeRoute
+  '/finance': typeof LayoutFinanceRoute
+  '/football': typeof LayoutFootballRoute
   '/gym': typeof LayoutGymRouteWithChildren
-  '/demo/tanstack-query': typeof DemoTanstackQueryRoute
+  '/kanban': typeof LayoutKanbanRoute
+  '/notes': typeof LayoutNotesRoute
+  '/trading': typeof LayoutTradingRoute
   '/gym/programs': typeof LayoutGymProgramsRoute
 }
 
@@ -151,9 +227,13 @@ export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
   '/_layout': typeof LayoutRouteWithChildren
-  '/snippets': typeof SnippetsRoute
+  '/_layout/code': typeof LayoutCodeRoute
+  '/_layout/finance': typeof LayoutFinanceRoute
+  '/_layout/football': typeof LayoutFootballRoute
   '/_layout/gym': typeof LayoutGymRouteWithChildren
-  '/demo/tanstack-query': typeof DemoTanstackQueryRoute
+  '/_layout/kanban': typeof LayoutKanbanRoute
+  '/_layout/notes': typeof LayoutNotesRoute
+  '/_layout/trading': typeof LayoutTradingRoute
   '/_layout/gym/programs': typeof LayoutGymProgramsRoute
 }
 
@@ -162,19 +242,37 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | ''
-    | '/snippets'
+    | '/code'
+    | '/finance'
+    | '/football'
     | '/gym'
-    | '/demo/tanstack-query'
+    | '/kanban'
+    | '/notes'
+    | '/trading'
     | '/gym/programs'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '' | '/snippets' | '/gym' | '/demo/tanstack-query' | '/gym/programs'
+  to:
+    | '/'
+    | ''
+    | '/code'
+    | '/finance'
+    | '/football'
+    | '/gym'
+    | '/kanban'
+    | '/notes'
+    | '/trading'
+    | '/gym/programs'
   id:
     | '__root__'
     | '/'
     | '/_layout'
-    | '/snippets'
+    | '/_layout/code'
+    | '/_layout/finance'
+    | '/_layout/football'
     | '/_layout/gym'
-    | '/demo/tanstack-query'
+    | '/_layout/kanban'
+    | '/_layout/notes'
+    | '/_layout/trading'
     | '/_layout/gym/programs'
   fileRoutesById: FileRoutesById
 }
@@ -182,15 +280,11 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   LayoutRoute: typeof LayoutRouteWithChildren
-  SnippetsRoute: typeof SnippetsRoute
-  DemoTanstackQueryRoute: typeof DemoTanstackQueryRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   LayoutRoute: LayoutRouteWithChildren,
-  SnippetsRoute: SnippetsRoute,
-  DemoTanstackQueryRoute: DemoTanstackQueryRoute,
 }
 
 export const routeTree = rootRoute
@@ -204,9 +298,7 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
-        "/_layout",
-        "/snippets",
-        "/demo/tanstack-query"
+        "/_layout"
       ]
     },
     "/": {
@@ -215,24 +307,48 @@ export const routeTree = rootRoute
     "/_layout": {
       "filePath": "_layout.tsx",
       "children": [
-        "/_layout/gym"
+        "/_layout/code",
+        "/_layout/finance",
+        "/_layout/football",
+        "/_layout/gym",
+        "/_layout/kanban",
+        "/_layout/notes",
+        "/_layout/trading"
       ]
     },
-    "/snippets": {
-      "filePath": "snippets.tsx"
+    "/_layout/code": {
+      "filePath": "_layout/code.tsx",
+      "parent": "/_layout"
+    },
+    "/_layout/finance": {
+      "filePath": "_layout/finance.tsx",
+      "parent": "/_layout"
+    },
+    "/_layout/football": {
+      "filePath": "_layout/football.tsx",
+      "parent": "/_layout"
     },
     "/_layout/gym": {
-      "filePath": "_layout.gym.tsx",
+      "filePath": "_layout/gym.tsx",
       "parent": "/_layout",
       "children": [
         "/_layout/gym/programs"
       ]
     },
-    "/demo/tanstack-query": {
-      "filePath": "demo.tanstack-query.tsx"
+    "/_layout/kanban": {
+      "filePath": "_layout/kanban.tsx",
+      "parent": "/_layout"
+    },
+    "/_layout/notes": {
+      "filePath": "_layout/notes.tsx",
+      "parent": "/_layout"
+    },
+    "/_layout/trading": {
+      "filePath": "_layout/trading.tsx",
+      "parent": "/_layout"
     },
     "/_layout/gym/programs": {
-      "filePath": "_layout.gym.programs.tsx",
+      "filePath": "_layout/gym.programs.tsx",
       "parent": "/_layout/gym"
     }
   }
