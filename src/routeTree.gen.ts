@@ -21,6 +21,7 @@ import { Route as LayoutFootballImport } from './routes/_layout/football'
 import { Route as LayoutFinanceImport } from './routes/_layout/finance'
 import { Route as LayoutCodeImport } from './routes/_layout/code'
 import { Route as LayoutGymProgramsImport } from './routes/_layout/gym.programs'
+import { Route as LayoutGymProgramsProgramIdImport } from './routes/_layout/gym.programs.$programId'
 
 // Create/Update Routes
 
@@ -82,6 +83,14 @@ const LayoutGymProgramsRoute = LayoutGymProgramsImport.update({
   path: '/programs',
   getParentRoute: () => LayoutGymRoute,
 } as any)
+
+const LayoutGymProgramsProgramIdRoute = LayoutGymProgramsProgramIdImport.update(
+  {
+    id: '/$programId',
+    path: '/$programId',
+    getParentRoute: () => LayoutGymProgramsRoute,
+  } as any,
+)
 
 // Populate the FileRoutesByPath interface
 
@@ -157,17 +166,35 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LayoutGymProgramsImport
       parentRoute: typeof LayoutGymImport
     }
+    '/_layout/gym/programs/$programId': {
+      id: '/_layout/gym/programs/$programId'
+      path: '/$programId'
+      fullPath: '/gym/programs/$programId'
+      preLoaderRoute: typeof LayoutGymProgramsProgramIdImport
+      parentRoute: typeof LayoutGymProgramsImport
+    }
   }
 }
 
 // Create and export the route tree
 
+interface LayoutGymProgramsRouteChildren {
+  LayoutGymProgramsProgramIdRoute: typeof LayoutGymProgramsProgramIdRoute
+}
+
+const LayoutGymProgramsRouteChildren: LayoutGymProgramsRouteChildren = {
+  LayoutGymProgramsProgramIdRoute: LayoutGymProgramsProgramIdRoute,
+}
+
+const LayoutGymProgramsRouteWithChildren =
+  LayoutGymProgramsRoute._addFileChildren(LayoutGymProgramsRouteChildren)
+
 interface LayoutGymRouteChildren {
-  LayoutGymProgramsRoute: typeof LayoutGymProgramsRoute
+  LayoutGymProgramsRoute: typeof LayoutGymProgramsRouteWithChildren
 }
 
 const LayoutGymRouteChildren: LayoutGymRouteChildren = {
-  LayoutGymProgramsRoute: LayoutGymProgramsRoute,
+  LayoutGymProgramsRoute: LayoutGymProgramsRouteWithChildren,
 }
 
 const LayoutGymRouteWithChildren = LayoutGymRoute._addFileChildren(
@@ -207,7 +234,8 @@ export interface FileRoutesByFullPath {
   '/kanban': typeof LayoutKanbanRoute
   '/notes': typeof LayoutNotesRoute
   '/trading': typeof LayoutTradingRoute
-  '/gym/programs': typeof LayoutGymProgramsRoute
+  '/gym/programs': typeof LayoutGymProgramsRouteWithChildren
+  '/gym/programs/$programId': typeof LayoutGymProgramsProgramIdRoute
 }
 
 export interface FileRoutesByTo {
@@ -220,7 +248,8 @@ export interface FileRoutesByTo {
   '/kanban': typeof LayoutKanbanRoute
   '/notes': typeof LayoutNotesRoute
   '/trading': typeof LayoutTradingRoute
-  '/gym/programs': typeof LayoutGymProgramsRoute
+  '/gym/programs': typeof LayoutGymProgramsRouteWithChildren
+  '/gym/programs/$programId': typeof LayoutGymProgramsProgramIdRoute
 }
 
 export interface FileRoutesById {
@@ -234,7 +263,8 @@ export interface FileRoutesById {
   '/_layout/kanban': typeof LayoutKanbanRoute
   '/_layout/notes': typeof LayoutNotesRoute
   '/_layout/trading': typeof LayoutTradingRoute
-  '/_layout/gym/programs': typeof LayoutGymProgramsRoute
+  '/_layout/gym/programs': typeof LayoutGymProgramsRouteWithChildren
+  '/_layout/gym/programs/$programId': typeof LayoutGymProgramsProgramIdRoute
 }
 
 export interface FileRouteTypes {
@@ -250,6 +280,7 @@ export interface FileRouteTypes {
     | '/notes'
     | '/trading'
     | '/gym/programs'
+    | '/gym/programs/$programId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -262,6 +293,7 @@ export interface FileRouteTypes {
     | '/notes'
     | '/trading'
     | '/gym/programs'
+    | '/gym/programs/$programId'
   id:
     | '__root__'
     | '/'
@@ -274,6 +306,7 @@ export interface FileRouteTypes {
     | '/_layout/notes'
     | '/_layout/trading'
     | '/_layout/gym/programs'
+    | '/_layout/gym/programs/$programId'
   fileRoutesById: FileRoutesById
 }
 
@@ -349,7 +382,14 @@ export const routeTree = rootRoute
     },
     "/_layout/gym/programs": {
       "filePath": "_layout/gym.programs.tsx",
-      "parent": "/_layout/gym"
+      "parent": "/_layout/gym",
+      "children": [
+        "/_layout/gym/programs/$programId"
+      ]
+    },
+    "/_layout/gym/programs/$programId": {
+      "filePath": "_layout/gym.programs.$programId.tsx",
+      "parent": "/_layout/gym/programs"
     }
   }
 }
