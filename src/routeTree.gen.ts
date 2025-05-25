@@ -21,7 +21,7 @@ import { Route as LayoutFootballImport } from './routes/_layout/football'
 import { Route as LayoutFinanceImport } from './routes/_layout/finance'
 import { Route as LayoutCodeImport } from './routes/_layout/code'
 import { Route as LayoutGymProgramsImport } from './routes/_layout/gym.programs'
-import { Route as LayoutGymProgramsProgramIdImport } from './routes/_layout/gym.programs.$programId'
+import { Route as LayoutGymProgramsProgramIdImport } from './routes/_layout/gym_.programs_.$programId'
 
 // Create/Update Routes
 
@@ -86,9 +86,9 @@ const LayoutGymProgramsRoute = LayoutGymProgramsImport.update({
 
 const LayoutGymProgramsProgramIdRoute = LayoutGymProgramsProgramIdImport.update(
   {
-    id: '/$programId',
-    path: '/$programId',
-    getParentRoute: () => LayoutGymProgramsRoute,
+    id: '/gym_/programs_/$programId',
+    path: '/gym/programs/$programId',
+    getParentRoute: () => LayoutRoute,
   } as any,
 )
 
@@ -166,35 +166,24 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LayoutGymProgramsImport
       parentRoute: typeof LayoutGymImport
     }
-    '/_layout/gym/programs/$programId': {
-      id: '/_layout/gym/programs/$programId'
-      path: '/$programId'
+    '/_layout/gym_/programs_/$programId': {
+      id: '/_layout/gym_/programs_/$programId'
+      path: '/gym/programs/$programId'
       fullPath: '/gym/programs/$programId'
       preLoaderRoute: typeof LayoutGymProgramsProgramIdImport
-      parentRoute: typeof LayoutGymProgramsImport
+      parentRoute: typeof LayoutImport
     }
   }
 }
 
 // Create and export the route tree
 
-interface LayoutGymProgramsRouteChildren {
-  LayoutGymProgramsProgramIdRoute: typeof LayoutGymProgramsProgramIdRoute
-}
-
-const LayoutGymProgramsRouteChildren: LayoutGymProgramsRouteChildren = {
-  LayoutGymProgramsProgramIdRoute: LayoutGymProgramsProgramIdRoute,
-}
-
-const LayoutGymProgramsRouteWithChildren =
-  LayoutGymProgramsRoute._addFileChildren(LayoutGymProgramsRouteChildren)
-
 interface LayoutGymRouteChildren {
-  LayoutGymProgramsRoute: typeof LayoutGymProgramsRouteWithChildren
+  LayoutGymProgramsRoute: typeof LayoutGymProgramsRoute
 }
 
 const LayoutGymRouteChildren: LayoutGymRouteChildren = {
-  LayoutGymProgramsRoute: LayoutGymProgramsRouteWithChildren,
+  LayoutGymProgramsRoute: LayoutGymProgramsRoute,
 }
 
 const LayoutGymRouteWithChildren = LayoutGymRoute._addFileChildren(
@@ -209,6 +198,7 @@ interface LayoutRouteChildren {
   LayoutKanbanRoute: typeof LayoutKanbanRoute
   LayoutNotesRoute: typeof LayoutNotesRoute
   LayoutTradingRoute: typeof LayoutTradingRoute
+  LayoutGymProgramsProgramIdRoute: typeof LayoutGymProgramsProgramIdRoute
 }
 
 const LayoutRouteChildren: LayoutRouteChildren = {
@@ -219,6 +209,7 @@ const LayoutRouteChildren: LayoutRouteChildren = {
   LayoutKanbanRoute: LayoutKanbanRoute,
   LayoutNotesRoute: LayoutNotesRoute,
   LayoutTradingRoute: LayoutTradingRoute,
+  LayoutGymProgramsProgramIdRoute: LayoutGymProgramsProgramIdRoute,
 }
 
 const LayoutRouteWithChildren =
@@ -234,7 +225,7 @@ export interface FileRoutesByFullPath {
   '/kanban': typeof LayoutKanbanRoute
   '/notes': typeof LayoutNotesRoute
   '/trading': typeof LayoutTradingRoute
-  '/gym/programs': typeof LayoutGymProgramsRouteWithChildren
+  '/gym/programs': typeof LayoutGymProgramsRoute
   '/gym/programs/$programId': typeof LayoutGymProgramsProgramIdRoute
 }
 
@@ -248,7 +239,7 @@ export interface FileRoutesByTo {
   '/kanban': typeof LayoutKanbanRoute
   '/notes': typeof LayoutNotesRoute
   '/trading': typeof LayoutTradingRoute
-  '/gym/programs': typeof LayoutGymProgramsRouteWithChildren
+  '/gym/programs': typeof LayoutGymProgramsRoute
   '/gym/programs/$programId': typeof LayoutGymProgramsProgramIdRoute
 }
 
@@ -263,8 +254,8 @@ export interface FileRoutesById {
   '/_layout/kanban': typeof LayoutKanbanRoute
   '/_layout/notes': typeof LayoutNotesRoute
   '/_layout/trading': typeof LayoutTradingRoute
-  '/_layout/gym/programs': typeof LayoutGymProgramsRouteWithChildren
-  '/_layout/gym/programs/$programId': typeof LayoutGymProgramsProgramIdRoute
+  '/_layout/gym/programs': typeof LayoutGymProgramsRoute
+  '/_layout/gym_/programs_/$programId': typeof LayoutGymProgramsProgramIdRoute
 }
 
 export interface FileRouteTypes {
@@ -306,7 +297,7 @@ export interface FileRouteTypes {
     | '/_layout/notes'
     | '/_layout/trading'
     | '/_layout/gym/programs'
-    | '/_layout/gym/programs/$programId'
+    | '/_layout/gym_/programs_/$programId'
   fileRoutesById: FileRoutesById
 }
 
@@ -346,7 +337,8 @@ export const routeTree = rootRoute
         "/_layout/gym",
         "/_layout/kanban",
         "/_layout/notes",
-        "/_layout/trading"
+        "/_layout/trading",
+        "/_layout/gym_/programs_/$programId"
       ]
     },
     "/_layout/code": {
@@ -382,14 +374,11 @@ export const routeTree = rootRoute
     },
     "/_layout/gym/programs": {
       "filePath": "_layout/gym.programs.tsx",
-      "parent": "/_layout/gym",
-      "children": [
-        "/_layout/gym/programs/$programId"
-      ]
+      "parent": "/_layout/gym"
     },
-    "/_layout/gym/programs/$programId": {
-      "filePath": "_layout/gym.programs.$programId.tsx",
-      "parent": "/_layout/gym/programs"
+    "/_layout/gym_/programs_/$programId": {
+      "filePath": "_layout/gym_.programs_.$programId.tsx",
+      "parent": "/_layout"
     }
   }
 }

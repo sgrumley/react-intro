@@ -40,7 +40,7 @@ async function queryWorkout() {
 	return Promise.resolve(workouts);
 }
 
-export const Route = createFileRoute('/_layout/gym/programs/$programId')({
+export const Route = createFileRoute('/_layout/gym_/programs_/$programId')({
   component: RouteComponent,
 })
 
@@ -130,7 +130,7 @@ function RouteComponent() {
 //	return Promise.resolve(workouts);
 //}
 //
-//export const Route = createFileRoute("/_layout/gym/programs/$programId")({
+//export const Route = createFileRoute("/_layout/gym_/programs_/$programId")({
 //	component: RouteComponent,
 //});
 //

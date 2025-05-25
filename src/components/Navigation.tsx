@@ -9,7 +9,7 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import type { FileRouteTypes } from "@/routeTree.gen";
-import { Link, useMatchRoute } from "@tanstack/react-router";
+import { Link, useLocation } from "@tanstack/react-router";
 import {
   BadgeDollarSign,
   ChartCandlestick,
@@ -65,7 +65,7 @@ const menuItems: MenuItem[] = [
 ];
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const matchRoute = useMatchRoute();
+  const { pathname } = useLocation();
 
   return (
     <Sidebar collapsible="offcanvas" {...props}>
@@ -77,7 +77,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               <SidebarMenuItem>
                 <SidebarMenuButton
                   asChild
-                  isActive={!!matchRoute({ to: item.link })}
+                  isActive={pathname.includes(item.link)}
                 >
                   <Link to={item.link}>
                     {item.icon}
